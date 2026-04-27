@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">EduApp</string>
+    <string name="title_home">Home</string>
+    <string name="title_grades">Grades</string>
+    <string name="title_profile">Profile</string>
+    <string name="welcome_user">Welcome, User!</string>
+    <string name="recent_grades">Recent Grades</string>
+    <string name="subjects_taught">Subjects Taught</string>
+    <string name="change_language">Switch to Spanish</string>
+    <string name="no_data">No data available</string>
+</resources>
