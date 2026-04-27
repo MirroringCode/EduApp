@@ -24,4 +24,3 @@ dependencyResolutionManagement {
 
 rootProject.name = "EduApp"
 include(":app")
-include(":app:edu-sdk")

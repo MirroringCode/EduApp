@@ -10,7 +10,9 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.ArrayList;
+import android.widget.TextView;
+import com.example.eduapp.sdk.EduSdkManager;
+import com.example.eduapp.sdk.models.SdkGrade;
 import java.util.List;
 
 public class HomeFragment extends Fragment {
@@ -23,13 +25,15 @@ public class HomeFragment extends Fragment {
         RecyclerView rvRecentGrades = view.findViewById(R.id.rv_recent_grades);
         rvRecentGrades.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        // Mock data
-        List<Grade> mockGrades = new ArrayList<>();
-        mockGrades.add(new Grade("Mathematics", "A-"));
-        mockGrades.add(new Grade("History", "B+"));
-        mockGrades.add(new Grade("Science", "A"));
+        TextView tvWelcome = view.findViewById(R.id.tv_welcome);
+        android.content.SharedPreferences prefs = requireContext().getSharedPreferences("Settings", android.content.Context.MODE_PRIVATE);
+        String userName = prefs.getString("User_Name", "User");
+        tvWelcome.setText(getString(R.string.welcome_user, userName));
 
-        GradeAdapter adapter = new GradeAdapter(mockGrades);
+        EduSdkManager sdkManager = new EduSdkManager(requireContext());
+        List<SdkGrade> recentGrades = sdkManager.getAllGrades();
+
+        GradeAdapter adapter = new GradeAdapter(recentGrades);
         rvRecentGrades.setAdapter(adapter);
 
         return view;

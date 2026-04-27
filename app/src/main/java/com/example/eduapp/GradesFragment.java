@@ -10,10 +10,18 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.ArrayList;
+import android.app.AlertDialog;
+import android.widget.EditText;
+import com.example.eduapp.sdk.EduSdkManager;
+import com.example.eduapp.sdk.models.SdkGrade;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.util.List;
 
 public class GradesFragment extends Fragment {
+    
+    private EduSdkManager sdkManager;
+    private GradeAdapter adapter;
+    private List<SdkGrade> gradesList;
 
     @Nullable
     @Override
@@ -23,18 +31,42 @@ public class GradesFragment extends Fragment {
         RecyclerView rvAllGrades = view.findViewById(R.id.rv_all_grades);
         rvAllGrades.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        // Mock data
-        List<Grade> mockGrades = new ArrayList<>();
-        mockGrades.add(new Grade("Mathematics - Algebra", "A-"));
-        mockGrades.add(new Grade("Mathematics - Calculus", "B+"));
-        mockGrades.add(new Grade("History - World War II", "A"));
-        mockGrades.add(new Grade("History - Ancient Rome", "A-"));
-        mockGrades.add(new Grade("Science - Physics", "B"));
-        mockGrades.add(new Grade("Science - Chemistry", "B+"));
+        sdkManager = new EduSdkManager(requireContext());
+        gradesList = sdkManager.getAllGrades();
 
-        GradeAdapter adapter = new GradeAdapter(mockGrades);
+        adapter = new GradeAdapter(gradesList);
         rvAllGrades.setAdapter(adapter);
 
+        FloatingActionButton fabAddGrade = view.findViewById(R.id.fab_add_grade);
+        fabAddGrade.setOnClickListener(v -> showAddGradeDialog());
+
         return view;
+    }
+
+    private void showAddGradeDialog() {
+        View dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.dialog_add_grade, null);
+        EditText etSubject = dialogView.findViewById(R.id.et_subject);
+        EditText etDescription = dialogView.findViewById(R.id.et_description);
+        EditText etScore = dialogView.findViewById(R.id.et_score);
+
+        new AlertDialog.Builder(requireContext())
+            .setView(dialogView)
+            .setPositiveButton("Guardar", (dialog, which) -> {
+                String subject = etSubject.getText().toString();
+                String desc = etDescription.getText().toString();
+                String scoreStr = etScore.getText().toString();
+
+                if (!subject.isEmpty() && !scoreStr.isEmpty()) {
+                    double score = Double.parseDouble(scoreStr);
+                    SdkGrade newGrade = new SdkGrade(subject, desc, score);
+                    sdkManager.addGrade(newGrade);
+                    
+                    gradesList.clear();
+                    gradesList.addAll(sdkManager.getAllGrades());
+                    adapter.notifyDataSetChanged();
+                }
+            })
+            .setNegativeButton("Cancelar", null)
+            .show();
     }
 }

@@ -7,12 +7,14 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
+import com.example.eduapp.sdk.models.SdkGrade;
 
 public class GradeAdapter extends RecyclerView.Adapter<GradeAdapter.GradeViewHolder> {
 
-    private List<Grade> gradesList;
 
-    public GradeAdapter(List<Grade> gradesList) {
+    private List<SdkGrade> gradesList;
+
+    public GradeAdapter(List<SdkGrade> gradesList) {
         this.gradesList = gradesList;
     }
 
@@ -25,9 +27,10 @@ public class GradeAdapter extends RecyclerView.Adapter<GradeAdapter.GradeViewHol
 
     @Override
     public void onBindViewHolder(@NonNull GradeViewHolder holder, int position) {
-        Grade grade = gradesList.get(position);
+        SdkGrade grade = gradesList.get(position);
         holder.tvSubject.setText(grade.getSubject());
-        holder.tvGrade.setText(grade.getScore());
+        holder.tvDescription.setText(grade.getDescription());
+        holder.tvGrade.setText(String.format("%.1f", grade.getScore()));
     }
 
     @Override
@@ -37,11 +40,13 @@ public class GradeAdapter extends RecyclerView.Adapter<GradeAdapter.GradeViewHol
 
     static class GradeViewHolder extends RecyclerView.ViewHolder {
         TextView tvSubject;
+        TextView tvDescription;
         TextView tvGrade;
 
         public GradeViewHolder(@NonNull View itemView) {
             super(itemView);
             tvSubject = itemView.findViewById(R.id.tv_subject);
+            tvDescription = itemView.findViewById(R.id.tv_description);
             tvGrade = itemView.findViewById(R.id.tv_grade);
         }
     }
