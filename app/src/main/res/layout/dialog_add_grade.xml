@@ -13,12 +13,28 @@
         android:textStyle="bold"
         android:layout_marginBottom="16dp" />
 
-    <EditText
-        android:id="@+id/et_subject"
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Materia (Ej. Matemáticas)"
-        android:inputType="text"
+        android:text="Selecciona Estudiante"
+        android:layout_marginBottom="4dp" />
+
+    <Spinner
+        android:id="@+id/spinner_student"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Selecciona Materia"
+        android:layout_marginBottom="4dp" />
+
+    <Spinner
+        android:id="@+id/spinner_subject"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="12dp" />
 
     <EditText

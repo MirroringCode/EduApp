@@ -29,6 +29,7 @@ public class GradeAdapter extends RecyclerView.Adapter<GradeAdapter.GradeViewHol
     public void onBindViewHolder(@NonNull GradeViewHolder holder, int position) {
         SdkGrade grade = gradesList.get(position);
         holder.tvSubject.setText(grade.getSubject());
+        holder.tvStudentName.setText("Alumno: " + grade.getStudentName());
         holder.tvDescription.setText(grade.getDescription());
         holder.tvGrade.setText(String.format("%.1f", grade.getScore()));
     }
@@ -40,12 +41,14 @@ public class GradeAdapter extends RecyclerView.Adapter<GradeAdapter.GradeViewHol
 
     static class GradeViewHolder extends RecyclerView.ViewHolder {
         TextView tvSubject;
+        TextView tvStudentName;
         TextView tvDescription;
         TextView tvGrade;
 
         public GradeViewHolder(@NonNull View itemView) {
             super(itemView);
             tvSubject = itemView.findViewById(R.id.tv_subject);
+            tvStudentName = itemView.findViewById(R.id.tv_student_name);
             tvDescription = itemView.findViewById(R.id.tv_description);
             tvGrade = itemView.findViewById(R.id.tv_grade);
         }

@@ -59,9 +59,28 @@ public class ProfileFragment extends Fragment {
         rvSubjects.setAdapter(adapter);
 
         FloatingActionButton fabAddSubject = view.findViewById(R.id.fab_add_subject);
-        fabAddSubject.setOnClickListener(v -> showAddSubjectDialog());
+        
+        String userRole = prefs.getString("User_Role", "Estudiante");
+        if ("Estudiante".equals(userRole)) {
+            fabAddSubject.setVisibility(View.GONE);
+        } else {
+            fabAddSubject.setOnClickListener(v -> showAddSubjectDialog());
+        }
 
         Button btnChangeLanguage = view.findViewById(R.id.btn_change_language);
+        Button btnLogout = view.findViewById(R.id.btn_logout);
+
+        btnLogout.setOnClickListener(v -> {
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.remove("User_Name");
+            editor.remove("User_Role");
+            editor.apply();
+
+            Intent intent = new Intent(getActivity(), WelcomeActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+            requireActivity().finish();
+        });
         
         // Detect current language to set toggle state
         String currentLang = getResources().getConfiguration().getLocales().get(0).getLanguage();

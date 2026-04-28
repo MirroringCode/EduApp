@@ -1,5 +1,6 @@
 package com.example.eduapp;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.activity.EdgeToEdge;
@@ -40,18 +41,21 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         
-        // Check if user name is set
+        // Obtener SharedPreferences (tipo local storage)
         SharedPreferences prefs = getSharedPreferences("Settings", Context.MODE_PRIVATE);
+        
+        // Obtener nombre de usuario desde los Settings / prefs
         String userName = prefs.getString("User_Name", "");
-        if (userName.isEmpty()) {
+
+        if (userName.isEmpty()) { // SI no hay nombre de usuario redirige a WelcomeActivity para pedirlo
             Intent intent = new Intent(this, WelcomeActivity.class);
             startActivity(intent);
-            finish();
-            return;
+            finish(); // Destruye actividad Main
+            return; // Termina el flujo aqui
         }
 
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_main); // Define que se esta trabajando en la actividad Main
         
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
